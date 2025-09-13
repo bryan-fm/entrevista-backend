@@ -9,7 +9,7 @@ class Kind extends Model
 {
     use HasFactory;
 
-    protected $table = 'users';
+    protected $table = 'kinds';
 
     protected $fillable = [
       'description'

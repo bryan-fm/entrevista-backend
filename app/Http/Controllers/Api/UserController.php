@@ -46,10 +46,4 @@ class UserController extends Controller
         $updated = $this->service->updateUser($userId, $request->validated());
         return response()->json($updated, Response::HTTP_OK);
     }
-
-    public function destroy(User $user)
-    {
-        $this->service->deleteUser($user);
-        return response()->json(null, Response::HTTP_NO_CONTENT);
-    }
 }

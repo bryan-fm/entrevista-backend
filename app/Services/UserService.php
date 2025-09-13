@@ -43,15 +43,6 @@ class UserService
         }
     }
 
-    public function deleteUser($user)
-    {
-        try {
-            return $this->repository->delete($user);
-        } catch (\Exception $e) {
-            throw new UserDeleteException();
-        }
-    }
-
     public function getAllUsers()
     {
         return $this->repository->all();
