@@ -27,12 +27,16 @@ class UserService
         }
     }
 
-    public function updateUser($user, array $data)
+    public function updateUser($userId, array $data)
     {
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        $user = $this->repository->findById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
         try {
-            if(isset($data['password'])){
-                $data['password'] = Hash::make($data['password']);
-            }
             return $this->repository->update($user, $data);
         } catch (\Exception $e) {
             throw new UserUpdateException();

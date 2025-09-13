@@ -12,6 +12,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users/create', [UserController::class, 'store']);
+    Route::post('/users/update/{userId}', [UserController::class, 'update']);
     Route::get('/users/all', [UserController::class, 'allUsers']);
-    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::get('/users/{userId}', [UserController::class, 'find']);
 });

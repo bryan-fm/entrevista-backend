@@ -15,7 +15,7 @@ class UserRepository
         return User::paginate($perPage);
     }
 
-    public function findById(int $id): User
+    public function findById(int $id): ?User
     {
         return User::findOrFail($id);
     }
@@ -31,8 +31,4 @@ class UserRepository
         return $user;
     }
 
-    public function delete(User $user): bool
-    {
-        return $user->delete();
-    }
 }

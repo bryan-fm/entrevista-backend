@@ -40,7 +40,7 @@ class UserControllerTest extends TestCase
                  ->assertJsonPath('data.0.name', 'Bryan');
     }
 
-    public function testShowReturnsUser()
+    public function testFindReturnsUser()
     {
         $user = User::factory()->create();
 
@@ -69,11 +69,34 @@ class UserControllerTest extends TestCase
         $this->app->instance(UserService::class, $serviceMock);
 
         $response = $this->actingAs($authUser, 'sanctum')
-                         ->postJson('/api/users/create', $data);
+                    ->postJson('/api/users/create', $data);
 
 
         $response->assertStatus(201)
                  ->assertJsonPath('id', 1)
                  ->assertJsonPath('name', 'Bryan');
+    }
+
+        public function testUpdateReturnsUpdatedUser()
+    {
+        $authUser = User::factory()->create();
+        
+        $updatedData = ['name'=>'Bryan Updated','email'=>'bryan25@test.com', 'role' => 'user'];
+
+        $updatedUser = new User($updatedData);
+        $updatedUser->id = 99;
+
+        $serviceMock = Mockery::mock(UserService::class);
+        $serviceMock->shouldReceive('updateUser')->once()->andReturn($updatedUser);
+        $this->app->instance(UserService::class, $serviceMock);
+
+        $this->app->instance(UserService::class, $serviceMock);
+
+        $updatedResoponse = $this->actingAs($authUser, 'sanctum')
+                ->postJson('/api/users/update/' . $authUser->id, $updatedData);
+
+        $updatedResoponse->assertStatus(200)
+            ->assertJsonPath('id', 99)
+            ->assertJsonPath('name', 'Bryan Updated');
     }
 }
