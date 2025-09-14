@@ -8,13 +8,27 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     public const ROLE_ADMIN = 'admin';
     public const ROLE_USER = 'user';
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Retorna um array customizado de claims para o JWT
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     /**
      * Tabela associada ao model (opcional se seguir convenção).

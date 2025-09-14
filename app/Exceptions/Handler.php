@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -37,5 +38,15 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Para requests de API (JSON/GraphQL), retorna 401 sem redirecionar
+        if ($request->expectsJson() || $request->is('graphql*')) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return redirect()->guest(route('login')); // web fallback
     }
 }

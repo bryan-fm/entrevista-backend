@@ -45,6 +45,11 @@ return [
             'driver' => 'sanctum', // usa o driver do Sanctum
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*
