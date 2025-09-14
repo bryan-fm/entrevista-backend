@@ -23,9 +23,18 @@ class TaskRepository
 
     public function findByIdWithRelations(int $id): ?TaskResource
     {
+        //eager loading
         $task = Task::with(['user', 'kind'])->findOrFail($id);
 
         return new TaskResource($task);
+    }
+
+        public function findByIdWithRelationsGraphql(int $id): ?Task
+    {
+        //eager loading
+        $task = Task::with(['user', 'kind'])->findOrFail($id);
+
+        return $task;
     }
     
     public function create(array $data): Task

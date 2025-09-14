@@ -68,10 +68,18 @@ class TaskService
         }
     }
 
-        public function findTaskByIdWithRelations($id)
+    public function findTaskByIdWithRelations($id)
     {
         try {
             return $this->repository->findByIdWithRelations($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw new TaskNotFoundException();
+        }
+    }
+        public function findTaskByIdWithRelationsGraphql($id)
+    {
+        try {
+            return $this->repository->findByIdWithRelationsGraphql($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             throw new TaskNotFoundException();
         }
